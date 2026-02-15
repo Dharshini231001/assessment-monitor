@@ -2,7 +2,7 @@
 
 A high-performance React + TypeScript application designed for secure technical assessments with real-time proctoring, event logging, and full-screen enforcement. Built with a focus on security, extensibility, and modern UI/UX.
 
-🔗 **Live Demo:** [https://assessment-monitor.vercel.app/](https://assessment-monitor.vercel.app/)
+🔗 **Live Demo:** [Deploy to Vercel to see your live URL]
 
 🚀 **Tech Stack**
 
