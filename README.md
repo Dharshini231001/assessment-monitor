@@ -2,7 +2,7 @@
 
 A high-performance React + TypeScript application designed for secure technical assessments with real-time proctoring, event logging, and full-screen enforcement. Built with a focus on security, extensibility, and modern UI/UX.
 
-🔗 **Live Demo:** [Deploy to Vercel to see your live URL]
+🔗 **Live Demo:** [https://assessment-monitor-klgmk0zv4-dharshni2310-gmailcoms-projects.vercel.app](https://assessment-monitor-klgmk0zv4-dharshni2310-gmailcoms-projects.vercel.app)
 
 🚀 **Tech Stack**
 
@@ -96,4 +96,4 @@ A real Supabase backend is used for logging and session persistence.
 
 📬 **Submission**
 - **GitHub Repo:** [https://github.com/Dharshini231001/assessment-monitor/](https://github.com/Dharshini231001/assessment-monitor/)
-- **Live URL:** [Paste your deployed live URL here]
+- **Live URL:** [https://assessment-monitor-klgmk0zv4-dharshni2310-gmailcoms-projects.vercel.app](https://assessment-monitor-klgmk0zv4-dharshni2310-gmailcoms-projects.vercel.app)
