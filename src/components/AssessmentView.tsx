@@ -52,7 +52,7 @@ export const AssessmentView = () => {
                                     variant={isMarked ? "secondary" : "ghost"} 
                                     size="sm" 
                                     onClick={() => toggleMarkQuestion(currentQuestion.id)}
-                                    className={cn("gap-2 transition-colors", isMarked && "bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400")}
+                                    className={cn("gap-2 transition-colors", isMarked && "bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400")}
                                 >
                                     <Flag className={cn("w-4 h-4", isMarked ? "fill-current" : "")} />
                                     {isMarked ? 'Marked as Doubt' : 'Mark as Doubt'}
@@ -108,9 +108,9 @@ export const AssessmentView = () => {
                     <div className="p-4 border-b border-border/50 bg-muted/10">
                         <h3 className="font-semibold text-lg tracking-tight">Question Palette</h3>
                         <p className="text-sm text-muted-foreground mt-1">
-                            <span className="inline-block w-3 h-3 rounded-full bg-green-500 mr-1"></span> Doubt
+                            <span className="inline-block w-3 h-3 rounded-full bg-blue-500 mr-1"></span> Doubt
+                            <span className="inline-block w-3 h-3 rounded-full bg-green-500 ml-3 mr-1"></span> Answered
                             <span className="inline-block w-3 h-3 rounded-full bg-primary ml-3 mr-1"></span> Current
-                            <span className="inline-block w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700 ml-3 mr-1"></span> Unvisited
                         </p>
                     </div>
 
@@ -127,9 +127,9 @@ export const AssessmentView = () => {
                                 if (isCurrent) {
                                     className += " border-primary ring-2 ring-primary/20 bg-primary/10 text-primary";
                                 } else if (isMarkedDoubt) {
-                                    className += " bg-green-100 text-green-700 border-green-300 hover:bg-green-200 dark:bg-green-900/40 dark:text-green-400 dark:border-green-800";
+                                    className += " bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800";
                                 } else if (isAnswered) {
-                                    className += " bg-muted text-muted-foreground border-slate-300 dark:border-slate-700";
+                                    className += " bg-green-100 text-green-700 border-green-300 hover:bg-green-200 dark:bg-green-900/40 dark:text-green-400 dark:border-green-800";
                                 } else {
                                      className += " text-muted-foreground hover:bg-muted";
                                 }
