@@ -22,7 +22,7 @@ export const SubmissionPage = () => {
                         <CheckCircle2 className="w-10 h-10 text-green-600 dark:text-green-400" />
                     </div>
                     <CardTitle className="text-3xl font-bold bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">
-                        Assessment Perfected!
+                        Assessment completed successfully
                     </CardTitle>
                     <p className="text-muted-foreground mt-2">
                         Your professional evaluation has been securely processed.
