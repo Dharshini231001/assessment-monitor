@@ -15,7 +15,7 @@ export const StartPage = () => {
             <Card className="max-w-2xl w-full shadow-xl border-t-4 border-t-primary">
                 <CardHeader className="text-center pb-8 border-b">
                     <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                        Secure Assessment Environment
+                        Assessment Portal
                     </CardTitle>
                     <CardDescription className="text-lg mt-2">
                         Please select your domain and review the rules before beginning.
