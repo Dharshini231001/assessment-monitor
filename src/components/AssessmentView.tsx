@@ -37,9 +37,9 @@ export const AssessmentView = () => {
             <LockdownOverlay />
             <TimerDisplay />
 
-            <div className="flex-1 flex overflow-hidden gap-8 px-8">
-                <div className="w-3/4 flex flex-col relative py-8 overflow-y-auto pr-4">
-                   <div className="w-full space-y-8">
+            <div className="flex-1 flex overflow-hidden">
+                <div className="flex-1 flex flex-col relative p-6 md:p-12 overflow-y-auto">
+                   <div className="max-w-4xl w-full mx-auto space-y-8">
                         <div className="flex justify-between items-center">
                             <h2 className="text-xl font-bold tracking-tight">Question {currentQuestionIndex + 1}</h2>
                             <div className="flex gap-3">
@@ -100,7 +100,7 @@ export const AssessmentView = () => {
                    </div>
                 </div>
 
-                <div className="w-1/4 bg-background/30 backdrop-blur-xl flex flex-col border-x border-border/20 shadow-[-10px_0_30px_-15px_rgba(0,0,0,0.1)] rounded-3xl my-8">
+                <div className="w-80 bg-background/30 backdrop-blur-xl flex flex-col border-l border-border/20 shadow-[-10px_0_30px_-15px_rgba(0,0,0,0.1)]">
                     <div className="p-6 border-b border-border/20">
                         <h3 className="font-bold text-xl tracking-tight">Question Palette</h3>
                         <div className="flex flex-wrap gap-4 mt-3">
@@ -116,13 +116,13 @@ export const AssessmentView = () => {
                     </div>
 
                     <div className="flex-1 overflow-y-auto p-6">
-                        <div className="grid grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-4 gap-4">
                             {questions.map((q, i) => {
                                 const isCurrent = currentQuestionIndex === i;
                                 const isMarkedDoubt = markedQuestions.has(q.id);
                                 const isAnswered = !!selectedAnswers[q.id];
 
-                                let className = "h-12 w-full rounded-xl p-0 font-bold transition-all hover:scale-110 cursor-pointer";
+                                let className = "h-12 w-12 rounded-xl p-0 font-bold transition-all hover:scale-110 cursor-pointer";
 
                                 if (isCurrent) {
                                     className += " border-2 border-primary ring-4 ring-primary/20 bg-primary/20 text-primary z-10 scale-110";
