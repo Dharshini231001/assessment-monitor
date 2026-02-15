@@ -19,7 +19,8 @@ export const AssessmentView = () => {
         markedQuestions, 
         toggleMarkQuestion,
         selectedAnswers,
-        selectAnswer
+        selectAnswer,
+        submitAssessment
     } = useAssessment()
 
     const currentQuestion = questions[currentQuestionIndex]
@@ -67,7 +68,7 @@ export const AssessmentView = () => {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="p-6 pt-4">
-                                <RadioGroup value={currentAnswer} onValueChange={(val) => selectAnswer(currentQuestion.id, val)} className="space-y-3">
+                                <RadioGroup value={currentAnswer} onValueChange={(val: string) => selectAnswer(currentQuestion.id, val)} className="space-y-3">
                                     {currentQuestion.options.map((option, idx) => (
                                         <div key={idx} className={cn(
                                             "flex items-center space-x-3 space-y-0 rounded-md border p-4 transition-all hover:bg-accent hover:text-accent-foreground cursor-pointer",
@@ -86,10 +87,17 @@ export const AssessmentView = () => {
                                     <ChevronLeft className="w-4 h-4 mr-2" />
                                     Previous
                                 </Button>
-                                <Button onClick={nextQuestion} disabled={currentQuestionIndex === questions.length - 1}>
-                                    Next
-                                    <ChevronRight className="w-4 h-4 ml-2" />
-                                </Button>
+                                {currentQuestionIndex === questions.length - 1 ? (
+                                    <Button onClick={submitAssessment} className="bg-green-600 hover:bg-green-700 text-white">
+                                        Submit Assessment
+                                        <Flag className="w-4 h-4 ml-2" />
+                                    </Button>
+                                ) : (
+                                    <Button onClick={nextQuestion}>
+                                        Next
+                                        <ChevronRight className="w-4 h-4 ml-2" />
+                                    </Button>
+                                )}
                             </CardFooter>
                         </Card>
                    </div>

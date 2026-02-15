@@ -17,12 +17,14 @@ interface AssessmentContextType {
     isStarted: boolean
     isSubmitted: boolean
     timerRemaining: number
+    totalDuration: number
     questions: Question[]
     currentQuestionIndex: number
     markedQuestions: Set<string>
     selectedAnswers: Record<string, string>
     startAssessment: (techStack: string) => Promise<void>
     submitAssessment: () => Promise<void>
+    resetAssessment: () => void
     nextQuestion: () => void
     prevQuestion: () => void
     goToQuestion: (index: number) => void
@@ -57,6 +59,7 @@ export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const [isStarted, setIsStarted] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [timerRemaining, setTimerRemaining] = useState(0)
+    const [totalDuration, setTotalDuration] = useState(0)
     const [questions, setQuestions] = useState<Question[]>([])
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [markedQuestions, setMarkedQuestions] = useState<Set<string>>(new Set())
@@ -75,8 +78,8 @@ export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     const startAssessment = async (techStack: string) => {
         // Use Mock Data if DB fails or for this specific task requirement
-        const stackQuestions = MOCK_QUESTIONS[techStack as keyof typeof MOCK_QUESTIONS] || DEFAULT_QUESTIONS
-        setQuestions(stackQuestions)
+        const stackQuestions = (MOCK_QUESTIONS[techStack as keyof typeof MOCK_QUESTIONS] || DEFAULT_QUESTIONS) as Question[]
+        setQuestions([...stackQuestions])
 
         // 2. Create Attempt (Mocking success for UI dev if needed, but keeping logic)
         // For demo, we get a random assessment (or the seeded one)
@@ -119,10 +122,28 @@ export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
         lockdownService.init()
 
+        const duration = assessment?.duration_seconds || 3600 // fallback to 1 hour
+        setTotalDuration(duration)
+
         await timerService.init(attempt.id, {
-            durationSeconds: assessment.duration_seconds,
-            warningThresholds: assessment.warning_threshold_seconds || []
+            durationSeconds: duration,
+            warningThresholds: assessment?.warning_threshold_seconds || []
         })
+    }
+
+    const resetAssessment = () => {
+        setIsStarted(false)
+        setIsSubmitted(false)
+        setAttemptId(null)
+        setQuestions([])
+        setCurrentQuestionIndex(0)
+        setMarkedQuestions(new Set())
+        setSelectedAnswers({})
+        setTimerRemaining(0)
+        setTotalDuration(0)
+        timerService.stop()
+        lockdownService.cleanup()
+        eventLogger.stop()
     }
 
     const submitAssessment = async () => {
@@ -185,12 +206,14 @@ export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             isStarted,
             isSubmitted,
             timerRemaining,
+            totalDuration,
             questions,
             currentQuestionIndex,
             markedQuestions,
             selectedAnswers,
             startAssessment,
             submitAssessment,
+            resetAssessment,
             nextQuestion,
             prevQuestion,
             goToQuestion,
