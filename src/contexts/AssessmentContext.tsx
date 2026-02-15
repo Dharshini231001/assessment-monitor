@@ -34,7 +34,6 @@ interface AssessmentContextType {
 
 const AssessmentContext = createContext<AssessmentContextType | null>(null)
 
-// Mock Questions Data
 const MOCK_QUESTIONS: Record<string, Question[]> = {
     'Frontend': [
         { id: 'fq1', tech_stack: 'Frontend', difficulty: 'Easy', question_text: 'What is the virtual DOM in React?', options: ['A direct copy of the real DOM', 'A lightweight JavaScript representation of the DOM', 'A browser API', 'A new HTML element'] },
@@ -66,7 +65,6 @@ export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({})
 
     useEffect(() => {
-        // Timer subscription
         timerService.onTick((remaining) => {
             setTimerRemaining(remaining)
         })
@@ -77,12 +75,9 @@ export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [])
 
     const startAssessment = async (techStack: string) => {
-        // Use Mock Data if DB fails or for this specific task requirement
         const stackQuestions = (MOCK_QUESTIONS[techStack as keyof typeof MOCK_QUESTIONS] || DEFAULT_QUESTIONS) as Question[]
         setQuestions([...stackQuestions])
 
-        // 2. Create Attempt (Mocking success for UI dev if needed, but keeping logic)
-        // For demo, we get a random assessment (or the seeded one)
         const { data: assessment } = await supabase
             .from('assessments')
             .select('*')
@@ -90,7 +85,6 @@ export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             .single()
 
         if (!assessment) {
-            console.warn('No assessment found in DB, proceeding with defaults for UI demo.')
             setAttemptId('mock-attempt-id')
             setIsStarted(true)
             return
@@ -106,8 +100,6 @@ export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             .single()
 
         if (error || !attempt) {
-            console.error('Failed to create attempt', error)
-            // Fallback for demo
             setAttemptId('mock-attempt-id')
             setIsStarted(true)
             return
@@ -116,13 +108,12 @@ export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setAttemptId(attempt.id)
         setIsStarted(true)
 
-        // 3. Initialize Services
         eventLogger.setAttemptId(attempt.id)
         eventLogger.log('ASSESSMENT_STARTED', { tech_stack: techStack })
 
         lockdownService.init()
 
-        const duration = assessment?.duration_seconds || 3600 // fallback to 1 hour
+        const duration = assessment?.duration_seconds || 3600
         setTotalDuration(duration)
 
         await timerService.init(attempt.id, {

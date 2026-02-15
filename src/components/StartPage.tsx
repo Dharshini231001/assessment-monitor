@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Button } from './ui/button'
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from './ui/card'
+import { Button } from './ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Label } from './ui/label'
 import { useAssessment } from '../contexts/AssessmentContext'
@@ -11,8 +11,8 @@ export const StartPage = () => {
     const [techStack, setTechStack] = useState<string>('Frontend')
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
-            <Card className="max-w-2xl w-full shadow-xl border-t-4 border-t-primary">
+        <div className="min-h-screen flex items-center justify-center bg-transparent p-4">
+            <Card className="max-w-2xl w-full shadow-xl border-t-4 border-t-primary bg-background/80 backdrop-blur-md">
                 <CardHeader className="text-center pb-8 border-b">
                     <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                         Assessment Portal
@@ -23,7 +23,6 @@ export const StartPage = () => {
                 </CardHeader>
 
                 <CardContent className="grid gap-6 pt-8">
-                    {/* Tech Stack Selection */}
                     <div className="flex flex-col gap-3 p-4 rounded-lg bg-primary/5 border border-primary/10">
                         <div className="flex items-center gap-2 font-semibold text-primary mb-1">
                             <Code2 className="w-5 h-5" />
@@ -38,9 +37,6 @@ export const StartPage = () => {
                                 <SelectContent>
                                     <SelectItem value="Frontend">Frontend Development</SelectItem>
                                     <SelectItem value="Backend">Backend Development</SelectItem>
-                                    <SelectItem value="Full Stack">Full Stack Development</SelectItem>
-                                    <SelectItem value="Mobile">Mobile Development</SelectItem>
-                                    <SelectItem value="DevOps">DevOps & Infrastructure</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -92,10 +88,10 @@ export const StartPage = () => {
                 <CardFooter className="flex justify-center pt-6 pb-8">
                     <Button
                         size="lg"
-                        className="w-full max-w-sm text-lg h-14 font-semibold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform cursor-pointer"
+                        className="w-full md:w-auto px-12 h-14 text-lg font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-transform"
                         onClick={() => startAssessment(techStack)}
                     >
-                        Start {techStack} Assessment
+                        Start Assessment
                     </Button>
                 </CardFooter>
             </Card>

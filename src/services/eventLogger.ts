@@ -1,5 +1,4 @@
 import { supabase } from './supabaseClient'
-import { v4 as uuidv4 } from 'uuid'
 
 export type EventType =
     | 'TIMER_STARTED'
@@ -29,21 +28,17 @@ class EventLogger {
     private attemptId: string | null = null
     private eventQueue: LogEvent[] = []
     private isSubmitted = false
-    private flushInterval: Timer | null = null
+    private flushInterval: any = null
 
     constructor() {
-        // Load pending events from local storage if any
         const stored = localStorage.getItem('pending_events')
         if (stored) {
             try {
                 this.eventQueue = JSON.parse(stored)
             } catch (e) {
-                console.error('Failed to parse pending events', e)
                 this.eventQueue = []
             }
         }
-
-        // Start flush timer
         this.startFlushTimer()
     }
 
@@ -57,16 +52,13 @@ class EventLogger {
 
     log(eventType: EventType, metadata?: any) {
         if (this.isSubmitted && eventType !== 'ASSESSMENT_SUBMITTED') return
-
         const event: LogEvent = {
             event_type: eventType,
             client_timestamp: new Date().toISOString(),
             metadata,
         }
-
         this.eventQueue.push(event)
         this.persistLocal()
-
         if (this.eventQueue.length >= 20) {
             this.flush()
         }
@@ -78,12 +70,9 @@ class EventLogger {
 
     async flush() {
         if (this.eventQueue.length === 0 || !this.attemptId) return
-
         const batch = [...this.eventQueue]
-        // Optimistically clear queue, will re-add on failure
         this.eventQueue = []
         this.persistLocal()
-
         try {
             const { error } = await supabase.from('event_logs').insert(
                 batch.map(evt => ({
@@ -93,15 +82,11 @@ class EventLogger {
                     metadata: evt.metadata,
                 }))
             )
-
             if (error) {
-                console.error('Failed to flush logs:', error)
-                // Re-queue if failed
                 this.eventQueue = [...batch, ...this.eventQueue]
                 this.persistLocal()
             }
         } catch (err) {
-            console.error('Error flushing logs:', err)
             this.eventQueue = [...batch, ...this.eventQueue]
             this.persistLocal()
         }

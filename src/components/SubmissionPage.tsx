@@ -14,8 +14,8 @@ export const SubmissionPage = () => {
     const answeredCount = Object.keys(selectedAnswers).length
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background p-4 animate-in zoom-in-95 duration-500">
-            <Card className="max-w-md w-full text-center border-green-500/20 shadow-2xl shadow-green-500/10 overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center bg-transparent p-4 animate-in zoom-in-95 duration-500">
+            <Card className="max-w-md w-full text-center border-green-500/20 shadow-2xl shadow-green-500/10 overflow-hidden bg-background/60 backdrop-blur-xl">
                 <div className="h-2 bg-green-500 w-full" />
                 <CardHeader className="pt-8">
                     <div className="mx-auto w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">

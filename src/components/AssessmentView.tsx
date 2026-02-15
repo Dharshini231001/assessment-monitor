@@ -33,26 +33,24 @@ export const AssessmentView = () => {
     const currentAnswer = selectedAnswers[currentQuestion.id]
 
     return (
-        <div className="relative w-full h-screen bg-background flex flex-col overflow-hidden font-sans text-foreground">
+        <div className="relative w-full h-screen bg-transparent flex flex-col overflow-hidden font-sans text-foreground">
             <LockdownOverlay />
             <TimerDisplay />
 
             <div className="flex-1 flex overflow-hidden">
-                {/* Main Assessment Area */}
-                <div className="flex-1 flex flex-col relative bg-muted/20 border-r border-border/40 p-6 md:p-10 overflow-y-auto">
-                   <div className="max-w-3xl w-full mx-auto space-y-6">
-                        {/* Header Area */}
+                <div className="flex-1 flex flex-col relative p-6 md:p-12 overflow-y-auto">
+                   <div className="max-w-4xl w-full mx-auto space-y-8">
                         <div className="flex justify-between items-center">
-                            <h2 className="text-2xl font-bold tracking-tight">Question {currentQuestionIndex + 1}</h2>
-                            <div className="flex gap-2">
-                                <Badge variant={currentQuestion.difficulty === 'Hard' ? 'destructive' : currentQuestion.difficulty === 'Medium' ? 'default' : 'secondary'} className="uppercase">
+                            <h2 className="text-xl font-bold tracking-tight">Question {currentQuestionIndex + 1}</h2>
+                            <div className="flex gap-3">
+                                <Badge variant={currentQuestion.difficulty === 'Hard' ? 'destructive' : currentQuestion.difficulty === 'Medium' ? 'default' : 'secondary'} className="uppercase px-3 py-1 text-xs font-bold">
                                     {currentQuestion.difficulty}
                                 </Badge>
                                 <Button 
                                     variant={isMarked ? "secondary" : "ghost"} 
                                     size="sm" 
                                     onClick={() => toggleMarkQuestion(currentQuestion.id)}
-                                    className={cn("gap-2 transition-colors", isMarked && "bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400")}
+                                    className={cn("gap-2 transition-all hover:scale-105", isMarked && "bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400")}
                                 >
                                     <Flag className={cn("w-4 h-4", isMarked ? "fill-current" : "")} />
                                     {isMarked ? 'Marked as Doubt' : 'Mark as Doubt'}
@@ -60,78 +58,80 @@ export const AssessmentView = () => {
                             </div>
                         </div>
 
-                        {/* Question Card */}
-                        <Card className="border-border/60 shadow-lg bg-card/80 backdrop-blur-sm">
-                            <CardHeader className="p-6 pb-2">
-                                <CardTitle className="text-lg md:text-xl font-medium leading-relaxed">
-                                    {currentQuestion.question_text}
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="p-6 pt-4">
-                                <RadioGroup value={currentAnswer} onValueChange={(val: string) => selectAnswer(currentQuestion.id, val)} className="space-y-3">
-                                    {currentQuestion.options.map((option, idx) => (
-                                        <div key={idx} className={cn(
-                                            "flex items-center space-x-3 space-y-0 rounded-md border p-4 transition-all hover:bg-accent hover:text-accent-foreground cursor-default select-none",
-                                            currentAnswer === option ? "border-primary bg-primary/5 shadow-sm" : "border-muted"
-                                        )}>
-                                            <RadioGroupItem value={option} id={`option-${idx}`} className="cursor-default" />
-                                            <Label htmlFor={`option-${idx}`} className="flex-1 cursor-default font-normal text-base">
-                                                {option}
-                                            </Label>
-                                        </div>
-                                    ))}
-                                </RadioGroup>
-                            </CardContent>
-                            <CardFooter className="p-6 pt-0 flex justify-between">
-                                <Button variant="outline" onClick={prevQuestion} disabled={currentQuestionIndex === 0}>
-                                    <ChevronLeft className="w-4 h-4 mr-2" />
+                        <div className="space-y-6 p-1">
+                            <h1 className="text-xl md:text-2xl font-semibold leading-tight text-balance">
+                                {currentQuestion.question_text}
+                            </h1>
+                            
+                            <RadioGroup value={currentAnswer} onValueChange={(val: string) => selectAnswer(currentQuestion.id, val)} className="space-y-4">
+                                {currentQuestion.options.map((option, idx) => (
+                                    <div key={idx} className={cn(
+                                        "flex items-center space-x-4 space-y-0 rounded-2xl border-2 p-5 transition-all cursor-pointer select-none",
+                                        currentAnswer === option 
+                                            ? "border-primary bg-primary/10 shadow-md ring-1 ring-primary/20" 
+                                            : "border-border/50 bg-background/40 backdrop-blur-md hover:bg-background/60 hover:border-border"
+                                    )}>
+                                        <RadioGroupItem value={option} id={`option-${idx}`} className="h-4 w-4 cursor-pointer" />
+                                        <Label htmlFor={`option-${idx}`} className="flex-1 cursor-pointer font-medium text-base">
+                                            {option}
+                                        </Label>
+                                    </div>
+                                ))}
+                            </RadioGroup>
+
+                            <div className="pt-8 flex justify-between items-center border-t border-border/20">
+                                <Button variant="ghost" onClick={prevQuestion} disabled={currentQuestionIndex === 0} className="h-12 px-6 text-lg hover:bg-background/20">
+                                    <ChevronLeft className="w-5 h-5 mr-3" />
                                     Previous
                                 </Button>
                                 {currentQuestionIndex === questions.length - 1 ? (
-                                    <Button onClick={submitAssessment} className="bg-green-600 hover:bg-green-700 text-white">
+                                    <Button onClick={submitAssessment} className="bg-green-600 hover:bg-green-700 text-white h-12 px-8 text-lg font-bold shadow-lg shadow-green-500/20">
                                         Submit Assessment
-                                        <Flag className="w-4 h-4 ml-2" />
+                                        <Flag className="w-5 h-5 ml-3" />
                                     </Button>
                                 ) : (
-                                    <Button onClick={nextQuestion}>
+                                    <Button onClick={nextQuestion} className="h-12 px-8 text-lg hover:translate-x-1 transition-transform">
                                         Next
-                                        <ChevronRight className="w-4 h-4 ml-2" />
+                                        <ChevronRight className="w-5 h-5 ml-3" />
                                     </Button>
                                 )}
-                            </CardFooter>
-                        </Card>
+                            </div>
+                        </div>
                    </div>
                 </div>
 
-                {/* Side Panel - Questions Palette */}
-                <div className="w-80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex flex-col border-l border-border/50 shadow-2xl">
-                    <div className="p-4 border-b border-border/50 bg-muted/10">
-                        <h3 className="font-semibold text-lg tracking-tight">Question Palette</h3>
-                        <p className="text-sm text-muted-foreground mt-1">
-                            <span className="inline-block w-3 h-3 rounded-full bg-blue-500 mr-1"></span> Doubt
-                            <span className="inline-block w-3 h-3 rounded-full bg-green-500 ml-3 mr-1"></span> Answered
-                            <span className="inline-block w-3 h-3 rounded-full bg-primary ml-3 mr-1"></span> Current
-                        </p>
+                <div className="w-80 bg-background/30 backdrop-blur-xl flex flex-col border-l border-border/20 shadow-[-10px_0_30px_-15px_rgba(0,0,0,0.1)]">
+                    <div className="p-6 border-b border-border/20">
+                        <h3 className="font-bold text-xl tracking-tight">Question Palette</h3>
+                        <div className="flex flex-wrap gap-4 mt-3">
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-blue-500 shadow-sm"></div>
+                                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Doubt</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-green-500 shadow-sm"></div>
+                                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Answered</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4">
-                        <div className="grid grid-cols-4 gap-3">
+                    <div className="flex-1 overflow-y-auto p-6">
+                        <div className="grid grid-cols-4 gap-4">
                             {questions.map((q, i) => {
                                 const isCurrent = currentQuestionIndex === i;
                                 const isMarkedDoubt = markedQuestions.has(q.id);
                                 const isAnswered = !!selectedAnswers[q.id];
 
-                                let variant = "outline";
-                                let className = "h-10 w-10 p-0 font-medium transition-all hover:scale-105";
+                                let className = "h-12 w-12 rounded-xl p-0 font-bold transition-all hover:scale-110";
 
                                 if (isCurrent) {
-                                    className += " border-primary ring-2 ring-primary/20 bg-primary/10 text-primary";
+                                    className += " border-2 border-primary ring-4 ring-primary/20 bg-primary/20 text-primary z-10 scale-110";
                                 } else if (isMarkedDoubt) {
-                                    className += " bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800";
+                                    className += " bg-blue-500 text-white border-blue-600 shadow-lg shadow-blue-500/20";
                                 } else if (isAnswered) {
-                                    className += " bg-green-100 text-green-700 border-green-300 hover:bg-green-200 dark:bg-green-900/40 dark:text-green-400 dark:border-green-800";
+                                    className += " bg-green-500 text-white border-green-600 shadow-lg shadow-green-500/20";
                                 } else {
-                                     className += " text-muted-foreground hover:bg-muted";
+                                     className += " bg-background/40 text-muted-foreground border border-border/50 hover:bg-background/60 hover:border-border";
                                 }
 
                                 return (

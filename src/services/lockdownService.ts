@@ -14,8 +14,6 @@ class LockdownService {
         document.addEventListener('visibilitychange', this.handleVisibilityChange)
         window.addEventListener('blur', () => eventLogger.log('TAB_BLUR'))
         window.addEventListener('focus', () => eventLogger.log('TAB_FOCUS'))
-
-        // Block interactions
         document.addEventListener('copy', this.preventAndLog('COPY_ATTEMPT'))
         document.addEventListener('cut', this.preventAndLog('COPY_ATTEMPT'))
         document.addEventListener('paste', this.preventAndLog('PASTE_ATTEMPT'))
@@ -46,7 +44,6 @@ class LockdownService {
     }
 
     private handleKeydown = (e: KeyboardEvent) => {
-        // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Alt+Tab (hard to block in browser but we can log blur)
         if (
             e.key === 'F12' ||
             (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
@@ -59,16 +56,13 @@ class LockdownService {
 
     requestFullscreen() {
         if (!document.fullscreenElement && this.element) {
-            this.element.requestFullscreen().catch(err => {
-                console.error(`Error attempting to enable fullscreen: ${err.message}`)
-            })
+            this.element.requestFullscreen().catch(() => { })
         }
     }
 
     cleanup() {
         document.removeEventListener('fullscreenchange', this.handleFullscreenChange)
         document.removeEventListener('visibilitychange', this.handleVisibilityChange)
-        // In a real app we'd remove all specific listeners
     }
 }
 
