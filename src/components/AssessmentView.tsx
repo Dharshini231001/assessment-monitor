@@ -71,11 +71,11 @@ export const AssessmentView = () => {
                                 <RadioGroup value={currentAnswer} onValueChange={(val: string) => selectAnswer(currentQuestion.id, val)} className="space-y-3">
                                     {currentQuestion.options.map((option, idx) => (
                                         <div key={idx} className={cn(
-                                            "flex items-center space-x-3 space-y-0 rounded-md border p-4 transition-all hover:bg-accent hover:text-accent-foreground cursor-pointer",
+                                            "flex items-center space-x-3 space-y-0 rounded-md border p-4 transition-all hover:bg-accent hover:text-accent-foreground cursor-default select-none",
                                             currentAnswer === option ? "border-primary bg-primary/5 shadow-sm" : "border-muted"
                                         )}>
-                                            <RadioGroupItem value={option} id={`option-${idx}`} />
-                                            <Label htmlFor={`option-${idx}`} className="flex-1 cursor-pointer font-normal text-base">
+                                            <RadioGroupItem value={option} id={`option-${idx}`} className="cursor-default" />
+                                            <Label htmlFor={`option-${idx}`} className="flex-1 cursor-default font-normal text-base">
                                                 {option}
                                             </Label>
                                         </div>
