@@ -35,12 +35,12 @@ interface AssessmentContextType {
 const AssessmentContext = createContext<AssessmentContextType | null>(null)
 
 const MOCK_QUESTIONS: Record<string, Question[]> = {
-    'Frontend': [
-        { id: 'fq1', tech_stack: 'Frontend', difficulty: 'Easy', question_text: 'What is the virtual DOM in React?', options: ['A direct copy of the real DOM', 'A lightweight JavaScript representation of the DOM', 'A browser API', 'A new HTML element'] },
-        { id: 'fq2', tech_stack: 'Frontend', difficulty: 'Medium', question_text: 'Which hook is used for side effects in functional components?', options: ['useState', 'useReducer', 'useEffect', 'useCallback'] },
-        { id: 'fq3', tech_stack: 'Frontend', difficulty: 'Medium', question_text: 'What does CSS Box Model consist of?', options: ['Margin, Border, Padding, Content', 'Header, Footer, Main, Sidebar', 'Grid, Flex, Block, Inline', 'Relative, Absolute, Fixed, Sticky'] },
-        { id: 'fq4', tech_stack: 'Frontend', difficulty: 'Hard', question_text: 'What is the purpose of Redux thunk?', options: ['To handle synchronous actions', 'To handle asynchronous actions', 'To store component state', 'To optimize rendering'] },
-        { id: 'fq5', tech_stack: 'Frontend', difficulty: 'Easy', question_text: 'What is JSX?', options: ['JavaScript XML', 'Java Syntax Extension', 'JSON Syntax check', 'JavaScript X-ray'] },
+    'Frontend Development': [
+        { id: 'fq1', tech_stack: 'Frontend Development', difficulty: 'Easy', question_text: 'What is the virtual DOM in React?', options: ['A direct copy of the real DOM', 'A lightweight JavaScript representation of the DOM', 'A browser API', 'A new HTML element'] },
+        { id: 'fq2', tech_stack: 'Frontend Development', difficulty: 'Medium', question_text: 'Which hook is used for side effects in functional components?', options: ['useState', 'useReducer', 'useEffect', 'useCallback'] },
+        { id: 'fq3', tech_stack: 'Frontend Development', difficulty: 'Medium', question_text: 'What does CSS Box Model consist of?', options: ['Margin, Border, Padding, Content', 'Header, Footer, Main, Sidebar', 'Grid, Flex, Block, Inline', 'Relative, Absolute, Fixed, Sticky'] },
+        { id: 'fq4', tech_stack: 'Frontend Development', difficulty: 'Hard', question_text: 'What is the purpose of Redux thunk?', options: ['To handle synchronous actions', 'To handle asynchronous actions', 'To store component state', 'To optimize rendering'] },
+        { id: 'fq5', tech_stack: 'Frontend Development', difficulty: 'Easy', question_text: 'What is JSX?', options: ['JavaScript XML', 'Java Syntax Extension', 'JSON Syntax check', 'JavaScript X-ray'] },
     ],
     'Backend': [
         { id: 'bq1', tech_stack: 'Backend', difficulty: 'Easy', question_text: 'What is middleware in Express.js?', options: ['A database driver', 'Functions that execute during request-response cycle', 'A frontend framework', 'A testing tool'] },
@@ -48,6 +48,27 @@ const MOCK_QUESTIONS: Record<string, Question[]> = {
         { id: 'bq3', tech_stack: 'Backend', difficulty: 'Medium', question_text: 'What is connection pooling?', options: ['Merging multiple databases', 'Reusing database connections', 'Sharing internet connection', 'Load balancing'] },
         { id: 'bq4', tech_stack: 'Backend', difficulty: 'Hard', question_text: 'Explain CAP theorem.', options: ['Consistency, Availability, Partition Tolerance', 'Consistency, Accuracy, Performance', 'Concurrency, Availability, Process', 'Cache, API, Protocol'] },
         { id: 'bq5', tech_stack: 'Backend', difficulty: 'Easy', question_text: 'What is an ORM?', options: ['Object-Relational Mapping', 'Object-Resource Management', 'Operational Risk Management', 'Online Reputation Management'] },
+    ],
+    'SQL': [
+        { id: 'sq1', tech_stack: 'SQL', difficulty: 'Easy', question_text: 'What is a Primary Key?', options: ['A key that allows null values', 'A unique identifier for a row', 'A link to another table', 'An optional field'] },
+        { id: 'sq2', tech_stack: 'SQL', difficulty: 'Medium', question_text: 'Which SQL clause is used to filter group results?', options: ['WHERE', 'HAVING', 'ORDER BY', 'GROUP BY'] },
+        { id: 'sq3', tech_stack: 'SQL', difficulty: 'Medium', question_text: 'What is the purpose of an Index?', options: ['To save space', 'To speed up data retrieval', 'To secure the database', 'To link tables'] },
+        { id: 'sq4', tech_stack: 'SQL', difficulty: 'Hard', question_text: 'What is ACID in database transactions?', options: ['Atomicity, Consistency, Isolation, Durability', 'Atomicity, Complexity, Isolation, Data', 'Accuracy, Consistency, Integration, Durability', 'Access, Control, Information, Data'] },
+        { id: 'sq5', tech_stack: 'SQL', difficulty: 'Easy', question_text: 'What does SQL stand for?', options: ['Structured Query Language', 'Simple Query Level', 'Stateless Query Logic', 'Standard Quality List'] },
+    ],
+    'Devops': [
+        { id: 'dq1', tech_stack: 'Devops', difficulty: 'Easy', question_text: 'What is Docker?', options: ['A programming language', 'A containerization platform', 'A database', 'An operating system'] },
+        { id: 'dq2', tech_stack: 'Devops', difficulty: 'Medium', question_text: 'What is CI/CD?', options: ['Continuous Integration / Continuous Deployment', 'Code Integration / Code Design', 'Cloud Integration / Cloud Data', 'Computer Interface / Core Design'] },
+        { id: 'dq3', tech_stack: 'Devops', difficulty: 'Medium', question_text: 'What is the purpose of Kubernetes?', options: ['Version control', 'Orchestration of containerized apps', 'Styling websites', 'Writing server logic'] },
+        { id: 'dq4', tech_stack: 'Devops', difficulty: 'Hard', question_text: 'Explain Infrastructure as Code (IaC).', options: ['Writing manuals for hardware', 'Managing infrastructure through machine-readable files', 'Manual server configuration', 'Hardcoding server IPs'] },
+        { id: 'dq5', tech_stack: 'Devops', difficulty: 'Easy', question_text: 'Which tool is commonly used for version control?', options: ['Jenkins', 'Git', 'Docker', 'Ansible'] },
+    ],
+    'Android/IOS Development': [
+        { id: 'mq1', tech_stack: 'Android/IOS Development', difficulty: 'Easy', question_text: 'What is the main language for native iOS development today?', options: ['Objective-C', 'Swift', 'Kotlin', 'Java'] },
+        { id: 'mq2', tech_stack: 'Android/IOS Development', difficulty: 'Easy', question_text: 'What is the main language for modern Android development?', options: ['Swift', 'Kotlin', 'C#', 'Ruby'] },
+        { id: 'mq3', tech_stack: 'Android/IOS Development', difficulty: 'Medium', question_text: 'What is React Native?', options: ['A native Android IDE', 'A framework for building cross-platform apps using React', 'A styling library', 'A database'] },
+        { id: 'mq4', tech_stack: 'Android/IOS Development', difficulty: 'Medium', question_text: 'What is an Activity in Android?', options: ['A class that represents a single screen with a UI', 'A background service', 'A database connection', 'A CSS file'] },
+        { id: 'mq5', tech_stack: 'Android/IOS Development', difficulty: 'Hard', question_text: 'What is Flutter?', options: ['A game engine', 'A UI toolkit for building natively compiled cross-platform apps', 'A web browser', 'A physical device'] },
     ]
 }
 
