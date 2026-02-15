@@ -96,4 +96,4 @@ A real Supabase backend is used for logging and session persistence.
 
 📬 **Submission**
 - **GitHub Repo:** [https://github.com/Dharshini231001/assessment-monitor/](https://github.com/Dharshini231001/assessment-monitor/)
-- **Live URL:** [https://assessment-monitor.vercel.app/](https://assessment-monitor.vercel.app/)
+- **Live URL:** [Paste your deployed live URL here]
