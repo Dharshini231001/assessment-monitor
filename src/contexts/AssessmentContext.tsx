@@ -72,10 +72,11 @@ const MOCK_QUESTIONS: Record<string, Question[]> = {
     ]
 }
 
-const DEFAULT_QUESTIONS = MOCK_QUESTIONS['Frontend']
+const DEFAULT_QUESTIONS = MOCK_QUESTIONS['Frontend Development']
 
 export const AssessmentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [attemptId, setAttemptId] = useState<string | null>(null)
+    const [techStack, setTechStack] = useState<string>('Frontend Development')
     const [isStarted, setIsStarted] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [timerRemaining, setTimerRemaining] = useState(0)

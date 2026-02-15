@@ -8,7 +8,7 @@ import { ShieldCheck, Clock, Eye, MousePointerClick, Code2 } from 'lucide-react'
 
 export const StartPage = () => {
     const { startAssessment } = useAssessment()
-    const [techStack, setTechStack] = useState<string>('Frontend')
+    const [techStack, setTechStack] = useState<string>('Frontend Development')
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-transparent p-4">
@@ -35,8 +35,11 @@ export const StartPage = () => {
                                     <SelectValue placeholder="Select a tech stack" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="Frontend">Frontend Development</SelectItem>
+                                    <SelectItem value="Frontend Development">Frontend Development</SelectItem>
                                     <SelectItem value="Backend">Backend Development</SelectItem>
+                                    <SelectItem value="SQL">SQL Management</SelectItem>
+                                    <SelectItem value="Devops">Devops Engineering</SelectItem>
+                                    <SelectItem value="Android/IOS Development">Android/IOS Development</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
