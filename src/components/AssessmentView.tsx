@@ -1,12 +1,35 @@
 import { TimerDisplay } from './TimerDisplay'
 import { LockdownOverlay } from './LockdownOverlay'
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
-import { ScrollArea } from './ui/scroll-area'
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from './ui/card'
 import { Badge } from './ui/badge'
+import { Button } from './ui/button'
+import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { Label } from './ui/label'
 import { useAssessment } from '../contexts/AssessmentContext'
+import { ChevronLeft, ChevronRight, Flag } from 'lucide-react'
+import { cn } from '../lib/utils'
 
 export const AssessmentView = () => {
-    const { questions } = useAssessment()
+    const { 
+        questions, 
+        currentQuestionIndex, 
+        nextQuestion, 
+        prevQuestion,
+        goToQuestion,
+        markedQuestions, 
+        toggleMarkQuestion,
+        selectedAnswers,
+        selectAnswer
+    } = useAssessment()
+
+    const currentQuestion = questions[currentQuestionIndex]
+
+    if (!currentQuestion) {
+        return <div className="flex items-center justify-center h-screen">Loading Questions...</div>
+    }
+
+    const isMarked = markedQuestions.has(currentQuestion.id)
+    const currentAnswer = selectedAnswers[currentQuestion.id]
 
     return (
         <div className="relative w-full h-screen bg-background flex flex-col overflow-hidden font-sans text-foreground">
@@ -15,47 +38,110 @@ export const AssessmentView = () => {
 
             <div className="flex-1 flex overflow-hidden">
                 {/* Main Assessment Area */}
-                <div className="flex-1 relative bg-muted/20 border-r border-border/40">
-                    <iframe
-                        src="https://example.com/"
-                        className="w-full h-full border-0 block"
-                        title="Assessment Content"
-                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                    />
+                <div className="flex-1 flex flex-col relative bg-muted/20 border-r border-border/40 p-6 md:p-10 overflow-y-auto">
+                   <div className="max-w-3xl w-full mx-auto space-y-6">
+                        {/* Header Area */}
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-2xl font-bold tracking-tight">Question {currentQuestionIndex + 1}</h2>
+                            <div className="flex gap-2">
+                                <Badge variant={currentQuestion.difficulty === 'Hard' ? 'destructive' : currentQuestion.difficulty === 'Medium' ? 'default' : 'secondary'} className="uppercase">
+                                    {currentQuestion.difficulty}
+                                </Badge>
+                                <Button 
+                                    variant={isMarked ? "secondary" : "ghost"} 
+                                    size="sm" 
+                                    onClick={() => toggleMarkQuestion(currentQuestion.id)}
+                                    className={cn("gap-2 transition-colors", isMarked && "bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400")}
+                                >
+                                    <Flag className={cn("w-4 h-4", isMarked ? "fill-current" : "")} />
+                                    {isMarked ? 'Marked as Doubt' : 'Mark as Doubt'}
+                                </Button>
+                            </div>
+                        </div>
+
+                        {/* Question Card */}
+                        <Card className="border-border/60 shadow-lg bg-card/80 backdrop-blur-sm">
+                            <CardHeader className="p-6 pb-2">
+                                <CardTitle className="text-lg md:text-xl font-medium leading-relaxed">
+                                    {currentQuestion.question_text}
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="p-6 pt-4">
+                                <RadioGroup value={currentAnswer} onValueChange={(val) => selectAnswer(currentQuestion.id, val)} className="space-y-3">
+                                    {currentQuestion.options.map((option, idx) => (
+                                        <div key={idx} className={cn(
+                                            "flex items-center space-x-3 space-y-0 rounded-md border p-4 transition-all hover:bg-accent hover:text-accent-foreground cursor-pointer",
+                                            currentAnswer === option ? "border-primary bg-primary/5 shadow-sm" : "border-muted"
+                                        )}>
+                                            <RadioGroupItem value={option} id={`option-${idx}`} />
+                                            <Label htmlFor={`option-${idx}`} className="flex-1 cursor-pointer font-normal text-base">
+                                                {option}
+                                            </Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            </CardContent>
+                            <CardFooter className="p-6 pt-0 flex justify-between">
+                                <Button variant="outline" onClick={prevQuestion} disabled={currentQuestionIndex === 0}>
+                                    <ChevronLeft className="w-4 h-4 mr-2" />
+                                    Previous
+                                </Button>
+                                <Button onClick={nextQuestion} disabled={currentQuestionIndex === questions.length - 1}>
+                                    Next
+                                    <ChevronRight className="w-4 h-4 ml-2" />
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                   </div>
                 </div>
 
-                {/* Side Panel - Questions */}
-                <div className="w-96 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex flex-col border-l border-border/50 shadow-2xl">
+                {/* Side Panel - Questions Palette */}
+                <div className="w-80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex flex-col border-l border-border/50 shadow-2xl">
                     <div className="p-4 border-b border-border/50 bg-muted/10">
-                        <h3 className="font-semibold text-lg tracking-tight">Assessment Questions</h3>
-                        <p className="text-sm text-muted-foreground">Answer the following questions based on your task.</p>
+                        <h3 className="font-semibold text-lg tracking-tight">Question Palette</h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                            <span className="inline-block w-3 h-3 rounded-full bg-green-500 mr-1"></span> Doubt
+                            <span className="inline-block w-3 h-3 rounded-full bg-primary ml-3 mr-1"></span> Current
+                            <span className="inline-block w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700 ml-3 mr-1"></span> Unvisited
+                        </p>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                        {questions.length === 0 ? (
-                            <div className="text-center p-8 text-muted-foreground">
-                                No questions loaded.
-                            </div>
-                        ) : (
-                            questions.map((q, i) => (
-                                <Card key={q.id} className="border border-border/60 shadow-sm hover:shadow-md transition-shadow duration-200 bg-card/50">
-                                    <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between space-y-0">
-                                        <CardTitle className="text-sm font-medium text-muted-foreground">
-                                            Question {i + 1}
-                                        </CardTitle>
-                                        <Badge variant={q.difficulty === 'Hard' ? 'destructive' : q.difficulty === 'Medium' ? 'default' : 'secondary'} className="text-[10px] px-2 py-0 uppercase">
-                                            {q.difficulty}
-                                        </Badge>
-                                    </CardHeader>
-                                    <CardContent className="p-4 pt-2">
-                                        <p className="text-sm leading-relaxed">{q.question_text}</p>
-                                    </CardContent>
-                                </Card>
-                            ))
-                        )}
+                    <div className="flex-1 overflow-y-auto p-4">
+                        <div className="grid grid-cols-4 gap-3">
+                            {questions.map((q, i) => {
+                                const isCurrent = currentQuestionIndex === i;
+                                const isMarkedDoubt = markedQuestions.has(q.id);
+                                const isAnswered = !!selectedAnswers[q.id];
+
+                                let variant = "outline";
+                                let className = "h-10 w-10 p-0 font-medium transition-all hover:scale-105";
+
+                                if (isCurrent) {
+                                    className += " border-primary ring-2 ring-primary/20 bg-primary/10 text-primary";
+                                } else if (isMarkedDoubt) {
+                                    className += " bg-green-100 text-green-700 border-green-300 hover:bg-green-200 dark:bg-green-900/40 dark:text-green-400 dark:border-green-800";
+                                } else if (isAnswered) {
+                                    className += " bg-muted text-muted-foreground border-slate-300 dark:border-slate-700";
+                                } else {
+                                     className += " text-muted-foreground hover:bg-muted";
+                                }
+
+                                return (
+                                    <Button
+                                        key={q.id}
+                                        variant="outline"
+                                        className={className}
+                                        onClick={() => goToQuestion(i)}
+                                    >
+                                        {i + 1}
+                                    </Button>
+                                )
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     )
 }
+
